@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+const API = import.meta.env.VITE_API_URL;
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/todos")
+    fetch(`${API}/api/todos`)
       .then((res) => res.json())
       .then((data) => setTodos(data));
   }, []);
@@ -14,7 +16,7 @@ function App() {
   const handleAdd = async () => {
     if (!title.trim()) return;
 
-    const res = await fetch("http://localhost:5000/api/todos", {
+    const res = await fetch(`${API}/api/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
@@ -26,7 +28,7 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:5000/api/todos/${id}`, {
+    await fetch(`${API}/api/todos/${id}`, {
       method: "DELETE",
     });
 
@@ -34,7 +36,7 @@ function App() {
   };
 
   const handleToggle = async (id, completed) => {
-    const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
+    const res = await fetch(`${API}/api/todos/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completed: !completed }),
