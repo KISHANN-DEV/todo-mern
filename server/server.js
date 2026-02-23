@@ -7,20 +7,36 @@ const Todo = require("./models/todo");
 
 const app = express();
 
-app.use(cors());
+/* ================= CORS CONFIG ================= */
+// Allow frontend from anywhere (safe for small projects)
+// You can later restrict to your Vercel domain
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 app.use(express.json());
 
+/* ================= ROOT ROUTE ================= */
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// MongoDB connection
+/* ================= MONGODB CONNECTION ================= */
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("MongoDB error:", err));
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected ✅"))
+  .catch((err) => {
+    console.error("MongoDB connection error ❌", err);
+    process.exit(1);
+  });
 
-// CREATE
+/* ================= CREATE ================= */
 app.post("/api/todos", async (req, res) => {
   try {
     const { title } = req.body;
@@ -34,7 +50,7 @@ app.post("/api/todos", async (req, res) => {
   }
 });
 
-// READ
+/* ================= READ ================= */
 app.get("/api/todos", async (req, res) => {
   try {
     const todos = await Todo.find();
@@ -44,7 +60,7 @@ app.get("/api/todos", async (req, res) => {
   }
 });
 
-// DELETE
+/* ================= DELETE ================= */
 app.delete("/api/todos/:id", async (req, res) => {
   try {
     await Todo.findByIdAndDelete(req.params.id);
@@ -54,7 +70,7 @@ app.delete("/api/todos/:id", async (req, res) => {
   }
 });
 
-// UPDATE (Toggle Complete)
+/* ================= UPDATE ================= */
 app.put("/api/todos/:id", async (req, res) => {
   try {
     const { completed } = req.body;
@@ -71,8 +87,9 @@ app.put("/api/todos/:id", async (req, res) => {
   }
 });
 
+/* ================= SERVER ================= */
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} 🚀`);
 });
