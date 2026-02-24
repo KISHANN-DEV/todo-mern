@@ -11,30 +11,29 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px; /* important for phone spacing */
+  padding: 20px;
 }
 
 /* Main Card */
 .container {
   width: 100%;
-  max-width: 480px;   /* keeps desktop same */
-  background: rgba(30, 41, 59, 0.8);
+  max-width: 480px;
+  background: rgba(30, 41, 59, 0.85);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 35px;
+  padding: 30px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
   color: white;
-  transition: all 0.4s ease;
+  transition: 0.3s ease;
 }
 
-/* Hover Effect (only for desktop) */
+/* Remove hover animation on touch devices */
 @media (hover: hover) {
   .container:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 
+    transform: translateY(-8px);
+    box-shadow:
       0 35px 80px rgba(0, 0, 0, 0.75),
       0 0 30px rgba(99, 102, 241, 0.4);
-    background: rgba(30, 41, 59, 0.9);
   }
 }
 
@@ -45,7 +44,7 @@ body {
 }
 
 .header h1 {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
 }
 
@@ -90,9 +89,13 @@ body {
   transition: 0.3s;
 }
 
+.input-group button:active {
+  transform: scale(0.95);
+}
+
 /* Todo List */
 .todo-list {
-  max-height: 350px;
+  max-height: 320px;
   overflow-y: auto;
   padding-right: 5px;
 }
@@ -117,8 +120,8 @@ body {
   cursor: pointer;
   font-size: 15px;
   flex: 1;
+  word-break: break-word;
   transition: 0.3s;
-  word-break: break-word; /* important for long text on phone */
 }
 
 .todo-title.completed {
@@ -136,6 +139,11 @@ body {
   cursor: pointer;
   font-size: 14px;
   transition: 0.3s;
+}
+
+.delete-btn:active {
+  background: #ef4444;
+  color: white;
 }
 
 /* Empty */
@@ -167,44 +175,14 @@ body {
   }
 }
 
-/* ========================= */
-/* 📱 MOBILE RESPONSIVE PART */
-/* ========================= */
-
-@media (max-width: 600px) {
-  body {
-    align-items: flex-start;
-    padding: 15px;
-  }
-
+/* Extra small phones */
+@media (max-width: 480px) {
   .container {
-    padding: 20px;
-    border-radius: 16px;
+    padding: 25px 20px;
+    border-radius: 18px;
   }
 
   .header h1 {
     font-size: 24px;
-  }
-
-  .header p {
-    font-size: 13px;
-  }
-
-  .input-group input {
-    font-size: 13px;
-    padding: 12px;
-  }
-
-  .input-group button {
-    width: 45px;
-    font-size: 18px;
-  }
-
-  .todo-item {
-    padding: 12px 14px;
-  }
-
-  .todo-title {
-    font-size: 14px;
   }
 }
